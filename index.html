@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TFC de Emi ⚔️</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #111, #1c1a16);
+      color: #f4efe3;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      backdrop-filter: blur(4px);
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+
+    .subtitle {
+      color: #d6c7a5;
+      margin-bottom: 24px;
+    }
+
+    .question {
+      margin-bottom: 28px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .question:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    label.question-title {
+      display: block;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #f0dfb2;
+    }
+
+    .required {
+      color: #ff8f8f;
+      margin-left: 6px;
+    }
+
+    input[type="text"], textarea, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.25);
+      color: white;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 14px;
+      border-radius: 12px;
+    }
+
+    .option input {
+      transform: scale(1.15);
+    }
+
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .btn-primary {
+      background: #d8b15a;
+      color: #20180d;
+    }
+
+    .btn-secondary {
+      background: #444;
+      color: #fff;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .result-box {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .house-image {
+      width: 220px;
+      max-width: 100%;
+      border-radius: 16px;
+      margin: 18px auto;
+      display: block;
+      border: 2px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .house-name {
+      font-size: 34px;
+      margin: 12px 0 8px;
+      color: #f0dfb2;
+    }
+
+    .house-desc {
+      max-width: 650px;
+      margin: 0 auto;
+      color: #eadfcb;
+      line-height: 1.6;
+    }
+
+    .small {
+      font-size: 13px;
+      color: #c9c0b1;
+      margin-top: 16px;
+    }
+
+    .error {
+      margin-top: 14px;
+      color: #ff9b9b;
+      font-weight: bold;
+    }
+
+    .success {
+      margin-top: 14px;
+      color: #9df0a6;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="quizCard" class="card">
+      <h1>Test – TFC de Emi ⚔️</h1>
+      <p class="subtitle">Antes de ingresar al cumpleaños deberás responder las siguientes preguntas.</p>
+
+      <form id="quizForm">
+        <div class="question">
+          <label class="question-title">Nombre y apellido <span class="required">*</span></label>
+          <input type="text" name="nombre" required />
+        </div>
+
+        <div class="question">
+          <label class="question-title">Género <span class="required">*</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="genero" value="Hombre" required> Hombre</label>
+            <label class="option"><input type="radio" name="genero" value="Mujer"> Mujer</label>
+            <label class="option"><input type="radio" name="genero" value="Ambas"> Ambas</label>
+            <label class="option"><input type="radio" name="genero" value="Trans"> Trans</label>
+            <label class="option"><input type="radio" name="genero" value="Mayonesa"> Mayonesa</label>
+            <label class="option"><input type="radio" name="genero" value="Therian"> Therian</label>
+            <label class="option"><input type="radio" name="genero" value="Rock Nacional"> Rock Nacional</label>
+            <label class="option"><input type="radio" name="genero" value="Depende el dia"> Depende el dia</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="question-title">Te mandan un audio de 5 minutos <span class="required">*</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="audio" value="Lo escucho porque seguro hay chisme" required> Lo escucho porque seguro hay chisme</label>
+            <label class="option"><input type="radio" name="audio" value="Lo escucho de a partes"> Lo escucho de a partes</label>
+            <label class="option"><input type="radio" name="audio" value="Lo escucho y respondo con otro audio largo"> Lo escucho y respondo con otro audio largo</label>
+            <label class="option"><input type="radio" name="audio" value="Finjo demencia"> Finjo demencia</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="question-title">Estacionás el auto y aparece un trapito <span class="required">*</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="trapito" value="Que la chupe no le doy nada" required> Que la chupe no le doy nada</label>
+            <label class="option"><input type="radio" name="trapito" value="Le doy unos pesos porque soy bueno/a"> Le doy unos pesos porque soy bueno/a</label>
+            <label class="option"><input type="radio" name="trapito" value="Le doy un par de pesos para que no me raye el auto"> Le doy un par de pesos para que no me raye el auto</label>
+            <label class="option"><input type="radio" name="trapito" value="Lo ignoro"> Lo ignoro</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="question-title">Vas a merendar a un lugar lindo, preferís... <span class="required">*</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="merienda" value="Merienda basica tipo cafe/chocolatada con medialunas" required> Merienda basica tipo cafe/chocolatada con medialunas</label>
+            <label class="option"><input type="radio" name="merienda" value="Alguna torta tipo Matilda"> Alguna torta tipo Matilda</label>
+            <label class="option"><input type="radio" name="merienda" value="Algo diferente a lo habitual"> Algo diferente a lo habitual</label>
+            <label class="option"><input type="radio" name="merienda" value="Algo salado"> Algo salado</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="question-title">Se sube una señora al colectivo y vos estas en el fondo <span class="required">*</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="colectivo" value="Le doy el asiento" required> Le doy el asiento</label>
+            <label class="option"><input type="radio" name="colectivo" value="Si nadie le dio por qué yo debería (vieja de mierda)"> Si nadie le dio por qué yo debería (vieja de mierda)</label>
+            <label class="option"><input type="radio" name="colectivo" value="Me hago el/la dormido/a"> Me hago el/la dormido/a</label>
+            <label class="option"><input type="radio" name="colectivo" value="Amago a levantarme pero no lo hago"> Amago a levantarme pero no lo hago</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="question-title">Podes ir a la cancha, a cualquier parte, preferís: <span class="required">*</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="cancha" value="Platea" required> Platea</label>
+            <label class="option"><input type="radio" name="cancha" value="Popular"> Popular</label>
+            <label class="option"><input type="radio" name="cancha" value="Palco"> Palco</label>
+            <label class="option"><input type="radio" name="cancha" value="Prefiero ver el partido por tele"> Prefiero ver el partido por tele</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="question-title">Tenes que elegir un tipo de música para estudiar (no vale en silencio (?)) <span class="required">*</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="musica" value="Reggaeton / algo movido" required> Reggaeton / algo movido</label>
+            <label class="option"><input type="radio" name="musica" value="Ruido blanco"> Ruido blanco</label>
+            <label class="option"><input type="radio" name="musica" value="Algo chill"> Algo chill</label>
+            <label class="option"><input type="radio" name="musica" value="Estudiar ¿? jajaja que puedo eu saber"> Estudiar ¿? jajaja que puedo eu saber</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="question-title">Te dan a elegir uno de estos sabores de helados (No, no va a haber helado creo, es solo una pregunta) <span class="required">*</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="helado" value="Dulce de leche granizado" required> Dulce de leche granizado</label>
+            <label class="option"><input type="radio" name="helado" value="Tramontana"> Tramontana</label>
+            <label class="option"><input type="radio" name="helado" value="Pistacho"> Pistacho</label>
+            <label class="option"><input type="radio" name="helado" value="Chocolate"> Chocolate</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="question-title">Te dan a elegir uno de estos 4 trabajos <span class="required">*</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="trabajo" value="2 palos por mes pero de lunes a lunes, 10 horas y tenés 3 horas de viaje" required> 2 palos por mes pero de lunes a lunes, 10 horas y tenés 3 horas de viaje</label>
+            <label class="option"><input type="radio" name="trabajo" value="1.5M por mes de lunes a lunes, en negro, 9 horas y 2 horas de viaje, turno noche en zona fiera fiera"> 1.5M por mes de lunes a lunes, en negro, 9 horas y 2 horas de viaje, turno noche en zona fiera fiera</label>
+            <label class="option"><input type="radio" name="trabajo" value="700k, en negro, 9 horas de lunes a sábado, horita de viaje, atención al cliente de Edesur (Si existiese)"> 700k, en negro, 9 horas de lunes a sábado, horita de viaje, atención al cliente de Edesur (Si existiese)</label>
+            <label class="option"><input type="radio" name="trabajo" value="450k atención al cliente home office, 7 horas, de lunes a viernes, en negro"> 450k atención al cliente home office, 7 horas, de lunes a viernes, en negro</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="question-title">Que factura preferis <span class="required">*</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="factura" value="Vigilante / medialuna" required> Vigilante / medialuna</label>
+            <label class="option"><input type="radio" name="factura" value="Tortita negra"> Tortita negra</label>
+            <label class="option"><input type="radio" name="factura" value="Alguna con pastelera / membrillo"> Alguna con pastelera / membrillo</label>
+            <label class="option"><input type="radio" name="factura" value="Soy celiaco/a me dan miedo las harinas"> Soy celiaco/a me dan miedo las harinas</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="question-title">Elegí un tipo de almohada para dormir <span class="required">*</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="almohada" value="Bien gordita" required> Bien gordita</label>
+            <label class="option"><input type="radio" name="almohada" value="Finita finita"> Finita finita</label>
+            <label class="option"><input type="radio" name="almohada" value="Las inteligentes"> Las inteligentes</label>
+            <label class="option"><input type="radio" name="almohada" value="No uso almohadas ¿?"> No uso almohadas ¿?</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="question-title">Si tienen que elegir un fruto seco de estos, elegirían... <span class="required">*</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="frutoSeco" value="Maní" required> Maní</label>
+            <label class="option"><input type="radio" name="frutoSeco" value="Nuez"> Nuez</label>
+            <label class="option"><input type="radio" name="frutoSeco" value="Almendra"> Almendra</label>
+            <label class="option"><input type="radio" name="frutoSeco" value="Nuez de macadamia"> Nuez de macadamia</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="question-title">Bandas/cantantes/música que escuches, las que sean <span class="required">*</span></label>
+          <textarea name="musicaLibre" required></textarea>
+        </div>
+
+        <div class="question">
+          <label class="question-title">Algo para decir <span class="required">*</span></label>
+          <textarea name="comentario" required></textarea>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-primary">Ver mi casa</button>
+          <button type="reset" class="btn-secondary">Borrar respuestas</button>
+        </div>
+
+        <div id="status"></div>
+      </form>
+    </div>
+
+    <div id="resultCard" class="card hidden">
+      <div class="result-box">
+        <h2>Tu casa es...</h2>
+        <img id="houseImage" class="house-image" src="" alt="Casa asignada" />
+        <div id="houseName" class="house-name"></div>
+        <p id="houseDesc" class="house-desc"></p>
+        <p class="small">Mostrale esta pantalla a Emi cuando llegues ⚔️</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // PEGÁ ACÁ TU URL DEL WEB APP DE APPS SCRIPT
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzVplZ9JCws1E5rHMYCC27QDXLBL2Vanp9iLD3suzzgIuJ_kpou22C_8dDA-sH39RB-6Q/exec";
+
+    const houses = {
+      suricata: {
+        name: "🐿 Casa Suricata",
+        image: "img/suricata.png",
+        description: "Sociable, curiosa y siempre al tanto de todo. La Suricata observa, comenta y detecta el chisme antes que nadie."
+      },
+      perezoso: {
+        name: "🦥 Casa Perezoso",
+        image: "img/perezoso.png",
+        description: "Relajada, paciente y con energía selectiva. La Casa Perezoso no se apura por nadie, pero cuando actúa, lo hace a su ritmo."
+      },
+      cuervo: {
+        name: "🐦 Casa Cuervo",
+        image: "img/cuervo.png",
+        description: "Analítica, estratégica y medio distante cuando hace falta. El Cuervo piensa antes de moverse y casi siempre lee mejor la situación."
+      },
+      guepardo: {
+        name: "🐆 Casa Guepardo",
+        image: "img/guepardo.png",
+        description: "Intensa, decidida y de reacción rápida. La Casa Guepardo va al frente, elige fuerte y no duda demasiado."
+      }
+    };
+
+    // Mapeo de respuestas -> casa
+    // Podés cambiar este reparto cuando quieras.
+    const scoringMap = {
+      audio: {
+        "Lo escucho porque seguro hay chisme": "suricata",
+        "Lo escucho de a partes": "perezoso",
+        "Lo escucho y respondo con otro audio largo": "guepardo",
+        "Finjo demencia": "cuervo"
+      },
+      trapito: {
+        "Que la chupe no le doy nada": "guepardo",
+        "Le doy unos pesos porque soy bueno/a": "suricata",
+        "Le doy un par de pesos para que no me raye el auto": "cuervo",
+        "Lo ignoro": "perezoso"
+      },
+      merienda: {
+        "Merienda basica tipo cafe/chocolatada con medialunas": "perezoso",
+        "Alguna torta tipo Matilda": "guepardo",
+        "Algo diferente a lo habitual": "cuervo",
+        "Algo salado": "suricata"
+      },
+      colectivo: {
+        "Le doy el asiento": "suricata",
+        "Si nadie le dio por qué yo debería (vieja de mierda)": "guepardo",
+        "Me hago el/la dormido/a": "perezoso",
+        "Amago a levantarme pero no lo hago": "cuervo"
+      },
+      cancha: {
+        "Platea": "cuervo",
+        "Popular": "guepardo",
+        "Palco": "suricata",
+        "Prefiero ver el partido por tele": "perezoso"
+      },
+      musica: {
+        "Reggaeton / algo movido": "guepardo",
+        "Ruido blanco": "cuervo",
+        "Algo chill": "perezoso",
+        "Estudiar ¿? jajaja que puedo eu saber": "suricata"
+      },
+      helado: {
+        "Dulce de leche granizado": "suricata",
+        "Tramontana": "perezoso",
+        "Pistacho": "cuervo",
+        "Chocolate": "guepardo"
+      },
+      trabajo: {
+        "2 palos por mes pero de lunes a lunes, 10 horas y tenés 3 horas de viaje": "guepardo",
+        "1.5M por mes de lunes a lunes, en negro, 9 horas y 2 horas de viaje, turno noche en zona fiera fiera": "suricata",
+        "700k, en negro, 9 horas de lunes a sábado, horita de viaje, atención al cliente de Edesur (Si existiese)": "perezoso",
+        "450k atención al cliente home office, 7 horas, de lunes a viernes, en negro": "cuervo"
+      },
+      factura: {
+        "Vigilante / medialuna": "perezoso",
+        "Tortita negra": "suricata",
+        "Alguna con pastelera / membrillo": "guepardo",
+        "Soy celiaco/a me dan miedo las harinas": "cuervo"
+      },
+      almohada: {
+        "Bien gordita": "perezoso",
+        "Finita finita": "guepardo",
+        "Las inteligentes": "cuervo",
+        "No uso almohadas ¿?": "suricata"
+      },
+      frutoSeco: {
+        "Maní": "suricata",
+        "Nuez": "perezoso",
+        "Almendra": "cuervo",
+        "Nuez de macadamia": "guepardo"
+      }
+    };
+
+    function computeResult(formDataObj) {
+      const scores = {
+        suricata: 0,
+        perezoso: 0,
+        cuervo: 0,
+        guepardo: 0
+      };
+
+      Object.keys(scoringMap).forEach(questionKey => {
+        const answer = formDataObj[questionKey];
+        const mappedHouse = scoringMap[questionKey][answer];
+        if (mappedHouse) scores[mappedHouse]++;
+      });
+
+      const priorityOrder = ["suricata", "perezoso", "cuervo", "guepardo"];
+      let winner = priorityOrder[0];
+
+      for (const house of priorityOrder) {
+        if (scores[house] > scores[winner]) {
+          winner = house;
+        }
+      }
+
+      return { winner, scores };
+    }
+
+    async function saveResponse(payload) {
+      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === "PEGAR_AQUI_TU_URL") {
+        throw new Error("Falta pegar la URL de Apps Script en index.html");
+      }
+
+      const response = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+
+      const text = await response.text();
+      return text;
+    }
+
+    document.getElementById("quizForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const status = document.getElementById("status");
+      status.className = "";
+      status.textContent = "";
+
+      const form = e.target;
+      const formData = new FormData(form);
+
+      const data = {};
+      for (const [key, value] of formData.entries()) {
+        data[key] = value;
+      }
+
+      const { winner, scores } = computeResult(data);
+      const houseData = houses[winner];
+
+      const payload = {
+        timestamp: new Date().toISOString(),
+        nombre: data.nombre || "",
+        genero: data.genero || "",
+        respuestas: data,
+        scores: scores,
+        resultado: houseData.name
+      };
+
+      try {
+        status.className = "success";
+        status.textContent = "Guardando resultado...";
+
+        await saveResponse(payload);
+
+        document.getElementById("houseImage").src = houseData.image;
+        document.getElementById("houseName").textContent = houseData.name;
+        document.getElementById("houseDesc").textContent = houseData.description;
+
+        document.getElementById("quizCard").classList.add("hidden");
+        document.getElementById("resultCard").classList.remove("hidden");
+      } catch (err) {
+        status.className = "error";
+        status.textContent = "No se pudo guardar la respuesta. Revisá la URL del Apps Script o la implementación.";
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
