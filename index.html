@@ -352,7 +352,7 @@
     <button id="musicToggle" type="button" class="btn-secondary">🔇 Activar música</button>
   </div>
 
-  <audio id="bgMusic" loop>
+  <audio id="bgMusic" loop autoplay>
     <source src="audio/musica-fondo.mp3" type="audio/mpeg" />
   </audio>
 
@@ -651,25 +651,43 @@
     };
 
     const bgMusic = document.getElementById("bgMusic");
-    const musicToggle = document.getElementById("musicToggle");
-    let musicPlaying = false;
+const musicToggle = document.getElementById("musicToggle");
+let musicPlaying = false;
 
-    musicToggle.addEventListener("click", async function () {
-      try {
-        if (!musicPlaying) {
-          bgMusic.volume = 0.35;
-          await bgMusic.play();
-          musicPlaying = true;
-          musicToggle.textContent = "🔊 Desactivar música";
-        } else {
-          bgMusic.pause();
-          musicPlaying = false;
-          musicToggle.textContent = "🔇 Activar música";
-        }
-      } catch (error) {
-        console.error("No se pudo reproducir la música:", error);
-      }
-    });
+async function tryStartMusic() {
+  try {
+    bgMusic.volume = 0.35;
+    await bgMusic.play();
+    musicPlaying = true;
+    musicToggle.textContent = "🔊 Desactivar música";
+  } catch (error) {
+    musicPlaying = false;
+    musicToggle.textContent = "🔇 Activar música";
+    console.log("Autoplay bloqueado:", error);
+  }
+}
+
+window.addEventListener("load", tryStartMusic);
+
+document.addEventListener("click", function firstUserInteraction() {
+  if (!musicPlaying) {
+    tryStartMusic();
+  }
+}, { once: true });
+
+musicToggle.addEventListener("click", async function () {
+  try {
+    if (!musicPlaying) {
+      await tryStartMusic();
+    } else {
+      bgMusic.pause();
+      musicPlaying = false;
+      musicToggle.textContent = "🔇 Activar música";
+    }
+  } catch (error) {
+    console.error("No se pudo reproducir la música:", error);
+  }
+});
 
     function computeResult(formDataObj) {
       const scores = {
@@ -810,7 +828,7 @@
         document.getElementById("houseName").textContent = houseData.name;
         document.getElementById("houseDesc").textContent = houseData.description;
         document.getElementById("resultSummary").textContent =
-          `Puntajes finales — Suricata: ${scores.suricata} | Perezoso: ${scores.perezoso} | Cuervo: ${scores.cuervo} | Guepardo: ${scores.guepardo}`;
+          ``;
 
         document.getElementById("quizCard").classList.add("hidden");
         document.getElementById("resultCard").classList.remove("hidden");
@@ -827,3 +845,4 @@
   </script>
 </body>
 </html>
+
