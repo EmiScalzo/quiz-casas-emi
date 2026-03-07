@@ -340,7 +340,7 @@
 
   <script>
     // PEGÁ ACÁ TU URL DEL WEB APP DE APPS SCRIPT
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzVplZ9JCws1E5rHMYCC27QDXLBL2Vanp9iLD3suzzgIuJ_kpou22C_8dDA-sH39RB-6Q/exec";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-ses9hK4iyfO3hvOZ1_0m_a2furvE1i8MKVwzKf4PczYkUWbxD_K213J3jOY0iF_6_Q/exec";
 
     const houses = {
       suricata: {
@@ -462,20 +462,21 @@
       return { winner, scores };
     }
 
-    async function saveResponse(payload) {
-      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === "PEGAR_AQUI_TU_URL") {
-        throw new Error("Falta pegar la URL de Apps Script en index.html");
-      }
+async function saveResponse(payload) {
+  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === "PEGAR_AQUI_TU_URL") {
+    throw new Error("Falta pegar la URL de Apps Script en index.html");
+  }
 
-      const response = await fetch(APPS_SCRIPT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload)
-      });
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(payload));
 
-      const text = await response.text();
-      return text;
-    }
+  const response = await fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    body: formData
+  });
+
+  return await response.text();
+}
 
     document.getElementById("quizForm").addEventListener("submit", async function(e) {
       e.preventDefault();
@@ -524,4 +525,5 @@
     });
   </script>
 </body>
+
 </html>
