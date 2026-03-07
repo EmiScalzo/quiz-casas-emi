@@ -4,121 +4,233 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TFC de Emi ⚔️</title>
+
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #111, #1c1a16);
-      color: #f4efe3;
+      background:
+        linear-gradient(rgba(8, 6, 4, 0.74), rgba(20, 14, 8, 0.78)),
+        url("img/fondo-medieval.png") center center / cover no-repeat fixed;
+      color: #f5efe2;
+    }
+
+    .music-btn {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 9999;
     }
 
     .container {
-      max-width: 900px;
+      max-width: 940px;
       margin: 0 auto;
-      padding: 24px;
+      padding: 28px 16px 48px;
     }
 
     .card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 18px;
-      padding: 24px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-      backdrop-filter: blur(4px);
+      background: rgba(18, 13, 9, 0.78);
+      border: 1px solid rgba(223, 191, 124, 0.22);
+      border-radius: 20px;
+      padding: 26px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.32);
+      backdrop-filter: blur(3px);
     }
 
     h1, h2, h3 {
       margin-top: 0;
     }
 
+    h1 {
+      text-align: center;
+      font-size: 34px;
+      color: #f1d690;
+      margin-bottom: 10px;
+    }
+
     .subtitle {
-      color: #d6c7a5;
-      margin-bottom: 24px;
+      text-align: center;
+      color: #e8d9b3;
+      margin-bottom: 22px;
+      line-height: 1.55;
+    }
+
+    .intro-badge {
+      display: inline-block;
+      margin: 0 auto 18px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(209, 165, 69, 0.16);
+      border: 1px solid rgba(209, 165, 69, 0.34);
+      color: #f1d690;
+      font-weight: bold;
+      font-size: 13px;
+      letter-spacing: 0.4px;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .progress-wrap {
+      margin: 0 auto 24px;
+      max-width: 680px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #e4d6b4;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 14px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #b7872f, #e6c474);
+      transition: width 0.25s ease;
     }
 
     .question {
       margin-bottom: 28px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 18px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
     }
 
-    .question:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-    }
-
-    label.question-title {
+    .question-title {
       display: block;
       font-size: 18px;
       font-weight: bold;
+      color: #f6dea1;
       margin-bottom: 12px;
-      color: #f0dfb2;
+      line-height: 1.4;
     }
 
     .required {
-      color: #ff8f8f;
-      margin-left: 6px;
+      color: #ff9f9f;
+      margin-left: 5px;
     }
 
-    input[type="text"], textarea, select {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(0,0,0,0.25);
-      color: white;
-      font-size: 15px;
-    }
-
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    .options {
+    .option-grid {
       display: grid;
       gap: 10px;
     }
 
     .option {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
       padding: 12px 14px;
-      border-radius: 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+      cursor: pointer;
+      line-height: 1.45;
+    }
+
+    .option:hover {
+      transform: translateY(-1px);
+      border-color: rgba(241, 214, 144, 0.42);
+      background: rgba(255,255,255,0.06);
     }
 
     .option input {
-      transform: scale(1.15);
+      margin-top: 2px;
+      transform: scale(1.08);
+      accent-color: #d4a847;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.22);
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      border-color: rgba(241, 214, 144, 0.65);
+      box-shadow: 0 0 0 3px rgba(209, 165, 69, 0.12);
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.5;
     }
 
     .actions {
-      margin-top: 24px;
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 24px;
     }
 
     button {
-      padding: 14px 20px;
       border: none;
       border-radius: 14px;
+      padding: 14px 22px;
       cursor: pointer;
-      font-weight: bold;
       font-size: 15px;
+      font-weight: bold;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
     }
 
     .btn-primary {
-      background: #d8b15a;
-      color: #20180d;
+      background: linear-gradient(180deg, #e0bb65, #c99933);
+      color: #24180a;
     }
 
     .btn-secondary {
-      background: #444;
+      background: rgba(77, 77, 77, 0.92);
       color: #fff;
+    }
+
+    #status {
+      margin-top: 18px;
+      text-align: center;
+      font-weight: bold;
+      min-height: 24px;
+    }
+
+    .success {
+      color: #99efaa;
+    }
+
+    .error {
+      color: #ff9c9c;
     }
 
     .hidden {
@@ -127,58 +239,148 @@
 
     .result-box {
       text-align: center;
-      padding: 20px;
+      animation: reveal 0.55s ease;
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     .house-image {
-      width: 220px;
+      width: 260px;
       max-width: 100%;
-      border-radius: 16px;
-      margin: 18px auto;
       display: block;
-      border: 2px solid rgba(255,255,255,0.15);
-      background: rgba(255,255,255,0.04);
+      margin: 22px auto 16px;
+      border-radius: 18px;
+      border: 2px solid rgba(241,214,144,0.2);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+      background: rgba(255,255,255,0.03);
     }
 
     .house-name {
-      font-size: 34px;
-      margin: 12px 0 8px;
-      color: #f0dfb2;
+      font-size: 38px;
+      color: #f1d690;
+      margin-bottom: 10px;
     }
 
     .house-desc {
-      max-width: 650px;
-      margin: 0 auto;
+      max-width: 700px;
+      margin: 0 auto 14px;
+      line-height: 1.65;
+      color: #f3e7cf;
+    }
+
+    .result-extra {
+      display: grid;
+      gap: 10px;
+      margin: 20px auto 0;
+      max-width: 680px;
+      text-align: left;
+    }
+
+    .result-chip {
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
       color: #eadfcb;
-      line-height: 1.6;
     }
 
-    .small {
+    .footer-note {
+      margin-top: 20px;
+      color: #d9cfbc;
       font-size: 13px;
-      color: #c9c0b1;
-      margin-top: 16px;
     }
 
-    .error {
-      margin-top: 14px;
-      color: #ff9b9b;
-      font-weight: bold;
+    .small-note {
+      margin-top: 10px;
+      text-align: center;
+      color: #d9cfbc;
+      font-size: 13px;
     }
 
-    .success {
-      margin-top: 14px;
-      color: #9df0a6;
-      font-weight: bold;
+    .divider {
+      width: 110px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #d4a847, transparent);
+      margin: 18px auto 24px;
+      border-radius: 999px;
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .question-title {
+        font-size: 16px;
+      }
+
+      .house-name {
+        font-size: 31px;
+      }
+
+      .music-btn {
+        top: 10px;
+        right: 10px;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
+
+  <div class="music-btn">
+    <button id="musicToggle" type="button" class="btn-secondary">🔇 Activar música</button>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="audio/musica-fondo.mp3" type="audio/mpeg" />
+  </audio>
+
   <div class="container">
+
     <div id="quizCard" class="card">
+      <div class="center">
+        <div class="intro-badge">Torneo festivo clasificatorio</div>
+      </div>
+
       <h1>Test – TFC de Emi ⚔️</h1>
-      <p class="subtitle">Antes de ingresar al cumpleaños deberás responder las siguientes preguntas.</p>
+      <p class="subtitle">
+        Antes de ingresar al cumpleaños deberás responder las siguientes preguntas.<br>
+        Al final se revelará la casa a la que pertenecés.
+      </p>
+
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>Progreso del test</span>
+          <span id="progressText">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </div>
 
       <form id="quizForm">
+
         <div class="question">
           <label class="question-title">Nombre y apellido <span class="required">*</span></label>
           <input type="text" name="nombre" required />
@@ -186,7 +388,7 @@
 
         <div class="question">
           <label class="question-title">Género <span class="required">*</span></label>
-          <div class="options">
+          <div class="option-grid">
             <label class="option"><input type="radio" name="genero" value="Hombre" required> Hombre</label>
             <label class="option"><input type="radio" name="genero" value="Mujer"> Mujer</label>
             <label class="option"><input type="radio" name="genero" value="Ambas"> Ambas</label>
@@ -200,7 +402,7 @@
 
         <div class="question">
           <label class="question-title">Te mandan un audio de 5 minutos <span class="required">*</span></label>
-          <div class="options">
+          <div class="option-grid">
             <label class="option"><input type="radio" name="audio" value="Lo escucho porque seguro hay chisme" required> Lo escucho porque seguro hay chisme</label>
             <label class="option"><input type="radio" name="audio" value="Lo escucho de a partes"> Lo escucho de a partes</label>
             <label class="option"><input type="radio" name="audio" value="Lo escucho y respondo con otro audio largo"> Lo escucho y respondo con otro audio largo</label>
@@ -210,7 +412,7 @@
 
         <div class="question">
           <label class="question-title">Estacionás el auto y aparece un trapito <span class="required">*</span></label>
-          <div class="options">
+          <div class="option-grid">
             <label class="option"><input type="radio" name="trapito" value="Que la chupe no le doy nada" required> Que la chupe no le doy nada</label>
             <label class="option"><input type="radio" name="trapito" value="Le doy unos pesos porque soy bueno/a"> Le doy unos pesos porque soy bueno/a</label>
             <label class="option"><input type="radio" name="trapito" value="Le doy un par de pesos para que no me raye el auto"> Le doy un par de pesos para que no me raye el auto</label>
@@ -220,7 +422,7 @@
 
         <div class="question">
           <label class="question-title">Vas a merendar a un lugar lindo, preferís... <span class="required">*</span></label>
-          <div class="options">
+          <div class="option-grid">
             <label class="option"><input type="radio" name="merienda" value="Merienda basica tipo cafe/chocolatada con medialunas" required> Merienda basica tipo cafe/chocolatada con medialunas</label>
             <label class="option"><input type="radio" name="merienda" value="Alguna torta tipo Matilda"> Alguna torta tipo Matilda</label>
             <label class="option"><input type="radio" name="merienda" value="Algo diferente a lo habitual"> Algo diferente a lo habitual</label>
@@ -230,7 +432,7 @@
 
         <div class="question">
           <label class="question-title">Se sube una señora al colectivo y vos estas en el fondo <span class="required">*</span></label>
-          <div class="options">
+          <div class="option-grid">
             <label class="option"><input type="radio" name="colectivo" value="Le doy el asiento" required> Le doy el asiento</label>
             <label class="option"><input type="radio" name="colectivo" value="Si nadie le dio por qué yo debería (vieja de mierda)"> Si nadie le dio por qué yo debería (vieja de mierda)</label>
             <label class="option"><input type="radio" name="colectivo" value="Me hago el/la dormido/a"> Me hago el/la dormido/a</label>
@@ -240,7 +442,7 @@
 
         <div class="question">
           <label class="question-title">Podes ir a la cancha, a cualquier parte, preferís: <span class="required">*</span></label>
-          <div class="options">
+          <div class="option-grid">
             <label class="option"><input type="radio" name="cancha" value="Platea" required> Platea</label>
             <label class="option"><input type="radio" name="cancha" value="Popular"> Popular</label>
             <label class="option"><input type="radio" name="cancha" value="Palco"> Palco</label>
@@ -250,7 +452,7 @@
 
         <div class="question">
           <label class="question-title">Tenes que elegir un tipo de música para estudiar (no vale en silencio (?)) <span class="required">*</span></label>
-          <div class="options">
+          <div class="option-grid">
             <label class="option"><input type="radio" name="musica" value="Reggaeton / algo movido" required> Reggaeton / algo movido</label>
             <label class="option"><input type="radio" name="musica" value="Ruido blanco"> Ruido blanco</label>
             <label class="option"><input type="radio" name="musica" value="Algo chill"> Algo chill</label>
@@ -260,7 +462,7 @@
 
         <div class="question">
           <label class="question-title">Te dan a elegir uno de estos sabores de helados (No, no va a haber helado creo, es solo una pregunta) <span class="required">*</span></label>
-          <div class="options">
+          <div class="option-grid">
             <label class="option"><input type="radio" name="helado" value="Dulce de leche granizado" required> Dulce de leche granizado</label>
             <label class="option"><input type="radio" name="helado" value="Tramontana"> Tramontana</label>
             <label class="option"><input type="radio" name="helado" value="Pistacho"> Pistacho</label>
@@ -270,7 +472,7 @@
 
         <div class="question">
           <label class="question-title">Te dan a elegir uno de estos 4 trabajos <span class="required">*</span></label>
-          <div class="options">
+          <div class="option-grid">
             <label class="option"><input type="radio" name="trabajo" value="2 palos por mes pero de lunes a lunes, 10 horas y tenés 3 horas de viaje" required> 2 palos por mes pero de lunes a lunes, 10 horas y tenés 3 horas de viaje</label>
             <label class="option"><input type="radio" name="trabajo" value="1.5M por mes de lunes a lunes, en negro, 9 horas y 2 horas de viaje, turno noche en zona fiera fiera"> 1.5M por mes de lunes a lunes, en negro, 9 horas y 2 horas de viaje, turno noche en zona fiera fiera</label>
             <label class="option"><input type="radio" name="trabajo" value="700k, en negro, 9 horas de lunes a sábado, horita de viaje, atención al cliente de Edesur (Si existiese)"> 700k, en negro, 9 horas de lunes a sábado, horita de viaje, atención al cliente de Edesur (Si existiese)</label>
@@ -280,7 +482,7 @@
 
         <div class="question">
           <label class="question-title">Que factura preferis <span class="required">*</span></label>
-          <div class="options">
+          <div class="option-grid">
             <label class="option"><input type="radio" name="factura" value="Vigilante / medialuna" required> Vigilante / medialuna</label>
             <label class="option"><input type="radio" name="factura" value="Tortita negra"> Tortita negra</label>
             <label class="option"><input type="radio" name="factura" value="Alguna con pastelera / membrillo"> Alguna con pastelera / membrillo</label>
@@ -290,7 +492,7 @@
 
         <div class="question">
           <label class="question-title">Elegí un tipo de almohada para dormir <span class="required">*</span></label>
-          <div class="options">
+          <div class="option-grid">
             <label class="option"><input type="radio" name="almohada" value="Bien gordita" required> Bien gordita</label>
             <label class="option"><input type="radio" name="almohada" value="Finita finita"> Finita finita</label>
             <label class="option"><input type="radio" name="almohada" value="Las inteligentes"> Las inteligentes</label>
@@ -300,7 +502,7 @@
 
         <div class="question">
           <label class="question-title">Si tienen que elegir un fruto seco de estos, elegirían... <span class="required">*</span></label>
-          <div class="options">
+          <div class="option-grid">
             <label class="option"><input type="radio" name="frutoSeco" value="Maní" required> Maní</label>
             <label class="option"><input type="radio" name="frutoSeco" value="Nuez"> Nuez</label>
             <label class="option"><input type="radio" name="frutoSeco" value="Almendra"> Almendra</label>
@@ -324,49 +526,61 @@
         </div>
 
         <div id="status"></div>
+        <div class="small-note">Tus respuestas quedan registradas solo para la administración del torneo ⚔️</div>
       </form>
     </div>
 
     <div id="resultCard" class="card hidden">
       <div class="result-box">
+        <div class="intro-badge">Resultado revelado</div>
         <h2>Tu casa es...</h2>
+        <div class="divider"></div>
+
         <img id="houseImage" class="house-image" src="" alt="Casa asignada" />
         <div id="houseName" class="house-name"></div>
         <p id="houseDesc" class="house-desc"></p>
-        <p class="small">Mostrale esta pantalla a Emi cuando llegues ⚔️</p>
+
+        <div class="result-extra">
+          <div class="result-chip" id="resultSummary"></div>
+          <div class="result-chip">Mostrá esta pantalla al llegar, así se confirma tu casa dentro del cumpleaños.</div>
+        </div>
+
+        <p class="footer-note">⚔️ Clasificación completada con éxito.</p>
+
+        <div class="actions">
+          <button type="button" class="btn-secondary" onclick="location.reload()">Volver al inicio</button>
+        </div>
       </div>
     </div>
+
   </div>
 
   <script>
-    // PEGÁ ACÁ TU URL DEL WEB APP DE APPS SCRIPT
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-ses9hK4iyfO3hvOZ1_0m_a2furvE1i8MKVwzKf4PczYkUWbxD_K213J3jOY0iF_6_Q/exec";
 
     const houses = {
       suricata: {
         name: "🐿 Casa Suricata",
         image: "img/suricata.png",
-        description: "Sociable, curiosa y siempre al tanto de todo. La Suricata observa, comenta y detecta el chisme antes que nadie."
+        description: "Sociable, curiosa y rapidísima para detectar lo que está pasando. La Casa Suricata observa todo, comenta todo y casi siempre está un paso adelante del resto."
       },
       perezoso: {
         name: "🦥 Casa Perezoso",
         image: "img/perezoso.png",
-        description: "Relajada, paciente y con energía selectiva. La Casa Perezoso no se apura por nadie, pero cuando actúa, lo hace a su ritmo."
+        description: "Tranquila, relajada y con energía muy selectiva. La Casa Perezoso no entra en desesperación por nada, prefiere la comodidad y sabe muy bien cuándo moverse... y cuándo no."
       },
       cuervo: {
         name: "🐦 Casa Cuervo",
         image: "img/cuervo.png",
-        description: "Analítica, estratégica y medio distante cuando hace falta. El Cuervo piensa antes de moverse y casi siempre lee mejor la situación."
+        description: "Analítica, estratégica y bastante perceptiva. La Casa Cuervo piensa antes de actuar, mide el terreno y suele entender la situación mejor que el resto."
       },
       guepardo: {
         name: "🐆 Casa Guepardo",
         image: "img/guepardo.png",
-        description: "Intensa, decidida y de reacción rápida. La Casa Guepardo va al frente, elige fuerte y no duda demasiado."
+        description: "Intensa, decidida y de reacción rápida. La Casa Guepardo va al frente, elige fuerte, no se queda dudando demasiado y se mueve con seguridad."
       }
     };
 
-    // Mapeo de respuestas -> casa
-    // Podés cambiar este reparto cuando quieras.
     const scoringMap = {
       audio: {
         "Lo escucho porque seguro hay chisme": "suricata",
@@ -436,6 +650,27 @@
       }
     };
 
+    const bgMusic = document.getElementById("bgMusic");
+    const musicToggle = document.getElementById("musicToggle");
+    let musicPlaying = false;
+
+    musicToggle.addEventListener("click", async function () {
+      try {
+        if (!musicPlaying) {
+          bgMusic.volume = 0.35;
+          await bgMusic.play();
+          musicPlaying = true;
+          musicToggle.textContent = "🔊 Desactivar música";
+        } else {
+          bgMusic.pause();
+          musicPlaying = false;
+          musicToggle.textContent = "🔇 Activar música";
+        }
+      } catch (error) {
+        console.error("No se pudo reproducir la música:", error);
+      }
+    });
+
     function computeResult(formDataObj) {
       const scores = {
         suricata: 0,
@@ -462,23 +697,83 @@
       return { winner, scores };
     }
 
-async function saveResponse(payload) {
-  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === "PEGAR_AQUI_TU_URL") {
-    throw new Error("Falta pegar la URL de Apps Script en index.html");
-  }
+    async function saveResponse(payload) {
+      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === "PEGAR_AQUI_TU_URL") {
+        throw new Error("Falta pegar la URL de Apps Script en index.html");
+      }
 
-  const formData = new FormData();
-  formData.append("data", JSON.stringify(payload));
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(payload));
 
-  const response = await fetch(APPS_SCRIPT_URL, {
-    method: "POST",
-    body: formData
-  });
+      const response = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        body: formData
+      });
 
-  return await response.text();
-}
+      return await response.text();
+    }
 
-    document.getElementById("quizForm").addEventListener("submit", async function(e) {
+    function getAnsweredCount() {
+      const form = document.getElementById("quizForm");
+
+      const requiredTextFields = form.querySelectorAll('input[required][type="text"], textarea[required]');
+      let count = 0;
+
+      requiredTextFields.forEach(field => {
+        if (field.value.trim() !== "") count++;
+      });
+
+      const requiredRadioNames = new Set();
+      form.querySelectorAll('input[type="radio"][required]').forEach(radio => {
+        requiredRadioNames.add(radio.name);
+      });
+
+      requiredRadioNames.forEach(name => {
+        if (form.querySelector(`input[name="${name}"]:checked`)) {
+          count++;
+        }
+      });
+
+      return count;
+    }
+
+    function getTotalRequiredCount() {
+      const form = document.getElementById("quizForm");
+      const requiredTextFields = form.querySelectorAll('input[required][type="text"], textarea[required]').length;
+
+      const requiredRadioNames = new Set();
+      form.querySelectorAll('input[type="radio"][required]').forEach(radio => {
+        requiredRadioNames.add(radio.name);
+      });
+
+      return requiredTextFields + requiredRadioNames.size;
+    }
+
+    function updateProgress() {
+      const total = getTotalRequiredCount();
+      const answered = getAnsweredCount();
+      const percent = Math.round((answered / total) * 100);
+
+      document.getElementById("progressFill").style.width = percent + "%";
+      document.getElementById("progressText").textContent = percent + "%";
+    }
+
+    function attachProgressListeners() {
+      const form = document.getElementById("quizForm");
+      form.querySelectorAll("input, textarea").forEach(el => {
+        el.addEventListener("input", updateProgress);
+        el.addEventListener("change", updateProgress);
+      });
+      updateProgress();
+    }
+
+    document.getElementById("quizForm").addEventListener("reset", function () {
+      setTimeout(updateProgress, 0);
+      document.getElementById("status").textContent = "";
+      document.getElementById("status").className = "";
+    });
+
+    document.getElementById("quizForm").addEventListener("submit", async function (e) {
       e.preventDefault();
 
       const status = document.getElementById("status");
@@ -514,16 +809,21 @@ async function saveResponse(payload) {
         document.getElementById("houseImage").src = houseData.image;
         document.getElementById("houseName").textContent = houseData.name;
         document.getElementById("houseDesc").textContent = houseData.description;
+        document.getElementById("resultSummary").textContent =
+          `Puntajes finales — Suricata: ${scores.suricata} | Perezoso: ${scores.perezoso} | Cuervo: ${scores.cuervo} | Guepardo: ${scores.guepardo}`;
 
         document.getElementById("quizCard").classList.add("hidden");
         document.getElementById("resultCard").classList.remove("hidden");
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (err) {
         status.className = "error";
         status.textContent = "No se pudo guardar la respuesta. Revisá la URL del Apps Script o la implementación.";
         console.error(err);
       }
     });
+
+    attachProgressListeners();
   </script>
 </body>
-
 </html>
