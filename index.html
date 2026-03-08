@@ -714,10 +714,164 @@ musicToggle.addEventListener("click", async function () {
   }
 });
 
-    attachProgressListeners();
+    function computeResult(formDataObj) {
+  const scores = {
+    suricata: 0,
+    perezoso: 0,
+    cuervo: 0,
+    guepardo: 0
+  };
+
+  Object.keys(scoringMap).forEach(questionKey => {
+    const answer = formDataObj[questionKey];
+    const mappedHouse = scoringMap[questionKey][answer];
+    if (mappedHouse) scores[mappedHouse]++;
+  });
+
+  const priorityOrder = ["suricata", "perezoso", "cuervo", "guepardo"];
+  let winner = priorityOrder[0];
+
+  for (const house of priorityOrder) {
+    if (scores[house] > scores[winner]) {
+      winner = house;
+    }
+  }
+
+  return { winner, scores };
+}
+
+async function saveResponse(payload) {
+  if (!APPS_SCRIPT_URL) {
+    throw new Error("Falta la URL de Apps Script");
+  }
+
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(payload));
+
+  const response = await fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    body: formData
+  });
+
+  return await response.text();
+}
+
+function getAnsweredCount() {
+  const form = document.getElementById("quizForm");
+
+  const requiredTextFields = form.querySelectorAll('input[required][type="text"], textarea[required]');
+  let count = 0;
+
+  requiredTextFields.forEach(field => {
+    if (field.value.trim() !== "") count++;
+  });
+
+  const requiredRadioNames = new Set();
+  form.querySelectorAll('input[type="radio"][required]').forEach(radio => {
+    requiredRadioNames.add(radio.name);
+  });
+
+  requiredRadioNames.forEach(name => {
+    if (form.querySelector(`input[name="${name}"]:checked`)) {
+      count++;
+    }
+  });
+
+  return count;
+}
+
+function getTotalRequiredCount() {
+  const form = document.getElementById("quizForm");
+  const requiredTextFields = form.querySelectorAll('input[required][type="text"], textarea[required]').length;
+
+  const requiredRadioNames = new Set();
+  form.querySelectorAll('input[type="radio"][required]').forEach(radio => {
+    requiredRadioNames.add(radio.name);
+  });
+
+  return requiredTextFields + requiredRadioNames.size;
+}
+
+function updateProgress() {
+  const total = getTotalRequiredCount();
+  const answered = getAnsweredCount();
+  const percent = Math.round((answered / total) * 100);
+
+  document.getElementById("progressFill").style.width = percent + "%";
+  document.getElementById("progressText").textContent = percent + "%";
+}
+
+function attachProgressListeners() {
+  const form = document.getElementById("quizForm");
+  form.querySelectorAll("input, textarea").forEach(el => {
+    el.addEventListener("input", updateProgress);
+    el.addEventListener("change", updateProgress);
+  });
+  updateProgress();
+}
+
+document.getElementById("quizForm").addEventListener("reset", function () {
+  setTimeout(updateProgress, 0);
+  document.getElementById("status").textContent = "";
+  document.getElementById("status").className = "";
+});
+
+document.getElementById("quizForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const status = document.getElementById("status");
+  status.className = "";
+  status.textContent = "";
+
+  const form = e.target;
+  const formData = new FormData(form);
+
+  const data = {};
+  for (const [key, value] of formData.entries()) {
+    data[key] = value;
+  }
+
+  const { winner, scores } = computeResult(data);
+  const houseData = houses[winner];
+
+  const payload = {
+    timestamp: new Date().toISOString(),
+    nombre: data.nombre || "",
+    genero: data.genero || "",
+    respuestas: data,
+    scores: scores,
+    resultado: houseData.name
+  };
+
+  try {
+    status.className = "success";
+    status.textContent = "Guardando resultado...";
+
+    await saveResponse(payload);
+
+    document.getElementById("houseImage").src = houseData.image;
+    document.getElementById("houseName").textContent = houseData.name;
+    document.getElementById("houseDesc").textContent = houseData.description;
+    document.getElementById("resultSummary").textContent =
+      `Puntajes finales — Suricata: ${scores.suricata} | Perezoso: ${scores.perezoso} | Cuervo: ${scores.cuervo} | Guepardo: ${scores.guepardo}`;
+
+    document.getElementById("quizCard").classList.add("hidden");
+    document.getElementById("resultCard").classList.remove("hidden");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (err) {
+    status.className = "error";
+    status.textContent = "No se pudo guardar la respuesta. Revisá la URL del Apps Script o la implementación.";
+    console.error(err);
+  }
+});
+
+attachProgressListeners();
+
   </script>
 </body>
 </html>
+
 
 
 
